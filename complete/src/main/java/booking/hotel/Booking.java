@@ -9,4 +9,8 @@ public interface Booking {
 
     Map<String, String> getInput();
 
+    default String getHotelName(){
+        return "";
+    }
+
 }

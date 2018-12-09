@@ -2,10 +2,7 @@ package booking.hotel;
 
 import booking.hotel.completablefuture.StartFlowCF;
 import booking.hotel.reactivestreams.StartFlowRS;
-import booking.hotel.services.BookingService;
-import booking.hotel.services.DbService;
-import booking.hotel.services.PaymentService;
-import booking.hotel.services.ValidationService;
+import booking.hotel.services.*;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +15,7 @@ public class HotelConfig {
     @Bean
     public ServletRegistrationBean<HttpServlet> hotel() {
         ServletRegistrationBean<HttpServlet> servRegBean = new ServletRegistrationBean<>();
-        servRegBean.setServlet(new HotelBookingServlet(startFlowCF(), startFlowRS));
+        servRegBean.setServlet(new HotelBookingServlet(startFlowCF(), startFlowRS()));
         servRegBean.addUrlMappings("/hotel");
         servRegBean.setLoadOnStartup(1);
         return servRegBean;
@@ -26,7 +23,7 @@ public class HotelConfig {
 
     @Bean
     public StartFlowCF startFlowCF() {
-        return new StartFlowCF();
+        return new StartFlowCF(auditService(), validationService(), bookingService(), dbService(), paymentService(), responseService());
     }
 
     @Bean
@@ -40,8 +37,8 @@ public class HotelConfig {
     }
 
     @Bean
-    public DbService dbService() {
-        return new DbService();
+    public AccountService dbService() {
+        return new AccountService();
     }
 
     @Bean
@@ -52,5 +49,15 @@ public class HotelConfig {
     @Bean
     public ValidationService validationService() {
         return new ValidationService();
+    }
+
+    @Bean
+    public AuditService auditService() {
+        return new AuditService();
+    }
+
+    @Bean
+    public ResponseService responseService() {
+        return new ResponseService();
     }
 }

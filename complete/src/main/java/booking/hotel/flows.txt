@@ -1,0 +1,4 @@
+audit request -> validate request -> if valid -> book payment -> save to db -> return success
+                                                              -> do payment
+                                  -> if invalid -> return error
+                                                              -> error in payment -> return error
