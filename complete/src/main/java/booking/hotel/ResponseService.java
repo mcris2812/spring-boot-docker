@@ -1,6 +1,5 @@
-package booking.hotel.services;
+package booking.hotel;
 
-import booking.hotel.Booking;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

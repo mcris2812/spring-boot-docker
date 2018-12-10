@@ -1,4 +1,4 @@
-package booking.hotel.services;
+package booking.hotel.completablefuture.services;
 
 import booking.hotel.Booking;
 import org.slf4j.Logger;

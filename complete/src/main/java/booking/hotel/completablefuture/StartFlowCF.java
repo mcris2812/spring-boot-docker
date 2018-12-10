@@ -2,7 +2,8 @@ package booking.hotel.completablefuture;
 
 
 import booking.hotel.ImmutableBooking;
-import booking.hotel.services.*;
+import booking.hotel.ResponseService;
+import booking.hotel.completablefuture.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +45,7 @@ public class StartFlowCF {
         ImmutableBooking bookingData = ImmutableBooking.builder().input(data).build();
 
         CompletableFuture
-                .completedFuture(bookingData)
+                .supplyAsync(() -> bookingData)
                 .thenApply(audit)
                 .thenApply(validate)
                 .thenAccept((validationResult -> {
