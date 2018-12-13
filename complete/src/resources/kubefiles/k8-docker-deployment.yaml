@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: k8-docker
+  name: k8-docker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: k8-docker
+  template:
+    metadata:
+      labels:
+        run: k8-docker
+    spec:
+      containers:
+      - image: localhost:50000/spring-boot-docker:1.0
+        name: k8-docker
+        ports:
+        - containerPort: 8080
