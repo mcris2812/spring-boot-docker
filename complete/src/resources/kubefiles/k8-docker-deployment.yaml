@@ -5,7 +5,7 @@ metadata:
     run: k8-docker
   name: k8-docker
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       run: k8-docker
@@ -15,7 +15,20 @@ spec:
         run: k8-docker
     spec:
       containers:
-      - image: localhost:50000/spring-boot-docker:1.0
+      - image: localhost:50000/spring-boot-docker:2.0
         name: k8-docker
         ports:
         - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            port: 8080
+            path: /health
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 2
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 3

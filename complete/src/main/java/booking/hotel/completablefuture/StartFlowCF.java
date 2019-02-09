@@ -4,6 +4,8 @@ package booking.hotel.completablefuture;
 import booking.hotel.ImmutableBooking;
 import booking.hotel.ResponseService;
 import booking.hotel.completablefuture.services.*;
+import io.prometheus.client.Counter;
+import io.prometheus.client.hotspot.ThreadExports;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +16,11 @@ import java.util.concurrent.CompletableFuture;
 
 public class StartFlowCF {
     private static final Logger LOG = LoggerFactory.getLogger(StartFlowCF.class);
+    static final Counter requests = Counter.build()
+            .name("requests_total")
+            .help("Total requests.")
+            .register();
+
 
     private final AuditService audit;
     private final ValidationService validate;
@@ -34,9 +41,11 @@ public class StartFlowCF {
         this.getAccount = getAccount;
         this.payBooking = payBooking;
         this.sendResponse = sendResponse;
+        new ThreadExports().register();
     }
 
     public void start(HttpServletRequest request) {
+        requests.inc();
         AsyncContext asyncContext = request.startAsync();
         asyncContext.setTimeout(30000);
 
